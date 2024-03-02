@@ -1,13 +1,20 @@
 const express = require("express");
 const { connection } = require("./db");
+const { nlpRouter } = require("./routes/nlpRouter");
 
 const app = express();
 
-///routes
+app.use(express.json());
+
+// basic route
 app.get("/", (req, res) => {
   res.status(200).json({ msg: "Home Page" });
 });
 
+// nlp routes
+app.use("/nlp", nlpRouter);
+
+// Server Setup
 app.listen(8080, async () => {
   try {
     await connection;
