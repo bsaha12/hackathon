@@ -9,7 +9,11 @@ interface Note {
   id: number;
 }
 
-const NotesApp: React.FC = () => {
+type NotesAppProps = {
+  setLogIn: (val: boolean) => void;
+};
+
+const NotesApp: React.FC<NotesAppProps> = ({ setLogIn }) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [searchValue, setSearchValue] = useState<string>('');
   const [filteredNotes, setFilteredNotes] = useState<Note[]>([]);
@@ -46,8 +50,9 @@ const NotesApp: React.FC = () => {
   };
 
   return (
-    <div className="notes-app">
-      <h2 className="app-header">NotesApp</h2>
+    <div className="h-fit">
+      <button className="absolute top-8 right-24 hover:bg-white hover:text-black hover:border-black border-solid bg-black py-2 px-8 rounded-md text-white border-white border" onClick={() => setLogIn(false)}>Logout</button>
+      <h2 className="text-3xl ml-24 mb-2 text-white">Write Your Notes</h2>
       <NoteSearch onSearch={handleSearch} />
       <NoteEditor onNoteAdd={handleNoteAdd} />
       <NotesGrid notes={filteredNotes} onNoteDelete={handleNoteDelete} />
