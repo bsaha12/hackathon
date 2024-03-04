@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 interface Note {
+  title: string;
   text: string;
   color: string;
   id: number;
@@ -12,27 +13,34 @@ interface NoteEditorProps {
 
 const NoteEditor: React.FC<NoteEditorProps> = ({ onNoteAdd }) => {
   const [text, setText] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
   };
 
+  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
+
   const handleNoteAdd = () => {
     const newNote: Note = {
+      title: title,
       text: text,
       color: 'white',
       id: Date.now(),
     };
     onNoteAdd(newNote);
     setText("");
+    setTitle('');
   };
 
-  // const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setColor(event.target.value);
-  // };
+
 
   return (
-    <div className="my-4">
+    <div className="my-4 flex flex-col items-center justify-center gap-4">
+      <input type="search" className="w-96 py-2 px-2 rounded-md" placeholder="Write a title..."
+      onChange={handleTitleChange} />
       <textarea
         placeholder="Enter your note here..."
         rows={5}
@@ -40,49 +48,9 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ onNoteAdd }) => {
         value={text}
         onChange={handleTextChange}
       />
-      <br/>
-      <button className="hover:bg-white hover:text-black hover:border-black border-solid bg-black py-2 px-8 rounded-md text-white ml-36 my-4 border-white border" onClick={handleNoteAdd}>
-        Add
+      <button className="hover:bg-white hover:text-black hover:border-black border-solid bg-black py-2 px-8 rounded-md text-white border-white border" onClick={handleNoteAdd}>
+        Add New Note
       </button>
-      {/* <div className="" onChange={handleColorChange}>
-        <input
-          type="radio"
-          className="h-6 w-6 p-3"
-          name="color-pick"
-          value=""
-        />
-        {/* <label htmlFor="color1" style={{ backgroundColor: "#F06292" }}></label> */}
-
-        {/* <input
-          type="radio"
-          name="color-pick"
-          className="h-6 w-6 p-3 my-4"
-          value="#BA68C8"
-          id="color2"
-        /> */}
-        {/* <label htmlFor="color2" style={{ backgroundColor: "#BA68C8" }}></label> */}
-
-        {/* <input
-          type="radio"
-          name="color-pick"
-          className="h-6 w-6 p-3 my-4"
-          value="#FFD54F"
-          id="color3"
-        /> */}
-        {/* <label htmlFor="color3" style={{ backgroundColor: "#FFD54F" }}></label> */}
-
-        {/* <input
-          type="radio"
-          name="color-pick"
-          className="h-6 w-6 p-3 my-4"
-          value="#4FC3F7"
-          id="color4"
-        /> */}
-        {/* <label htmlFor="color4" className='bg-amber-300'></label> */}
-
-        {/* <input type="radio" name="color-pick" className="h-6 w-6" id="color5" />
-        <br /> */}
-      {/* </div> */}
     </div>
   );
 };
