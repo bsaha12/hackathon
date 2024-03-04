@@ -10,7 +10,7 @@ const NoteSearch: React.FC<NoteSearchProps> = ({ onSearch }) => {
   };
 
   return (
-    <input type="search" className="w-96 py-2 pl-2 rounded-md" placeholder="Search..."
+    <input type="search" className="absolute top-8 left-16 w-56 py-2 px-2 rounded-md" placeholder="Search..."
       onChange={handleSearch} />
   );
 };
