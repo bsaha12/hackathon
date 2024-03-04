@@ -35,12 +35,28 @@ def extract_keywords(tokens):
 def analyze_sentiment(text):
     sid = SentimentIntensityAnalyzer()
     sentiment_scores = sid.polarity_scores(text)
-    return "Positive" if sentiment_scores["compound"] >= 0 else "Negative"
+    # return "Positive" if sentiment_scores["compound"] >= 0 else "Negative"
+    scores = {
+        "positive": sentiment_scores['pos'],
+        "negative": sentiment_scores['neg'],
+        "scary": custom_sentiment_score(text, ["scary", "fear", "horror"]),
+        "sad": custom_sentiment_score(text, ["sad", "unhappy", "tearful"]),
+        "joyful": custom_sentiment_score(text, ["joyful", "happy", "ecstatic"])
+    }
+
+    # print(scores)
+    # Determine the final sentiment based on the highest score
+    final_sentiment = max(scores, key=scores.get)
+
+    return final_sentiment
+    
+def custom_sentiment_score(text, keywords):
+    lower_text = text.lower()
+    count = sum(lower_text.count(keyword) for keyword in keywords)
+    return count / len(text.split())  # Normalising by the number of words
 
 def categorize_note(keywords, sentiment):
-    # Your categorization logic based on keywords and sentiment
-    # For demonstration, let's categorize as "Personal" if sentiment is positive
-    # and "Work" if sentiment is negative
+    # I am categorizng logic based on keywords and sentiment
     return "Personal" if sentiment == "Positive" else "Work"
 
 def extract_named_entities(text):
@@ -57,7 +73,7 @@ def extract_summary(text, num_sentences=3):
 
 try:
     input_data = sys.argv[1]
-    # input_data = "Hello World"
+    # input_data = "Hello World!!"
     text = input_data
 
     # Tokenization
@@ -65,7 +81,7 @@ try:
 
     # Keyword Extraction
     keywords = extract_keywords(tokens)
-    print("Keywords:", keywords)
+    # print("Keywords:", keywords)
 
     # Sentiment Analysis
     sentiment = analyze_sentiment(text)
@@ -77,7 +93,7 @@ try:
 
     # Named Entity Recognition
     named_entities = extract_named_entities(text)
-    print("Named Entities:", named_entities)
+    # print("Named Entities:", named_entities)
 
     # Extract Summary
     summary_sentences = extract_summary(text)
