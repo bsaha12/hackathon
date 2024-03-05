@@ -3,6 +3,7 @@ import NoteEditor from "./NoteEditor";
 import NotesGrid from "./NotesGrid";
 
 interface Note {
+  title: string;
   text: string;
   color: string;
   id: number;
