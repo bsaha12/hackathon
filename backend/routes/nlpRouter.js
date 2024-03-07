@@ -45,7 +45,7 @@ nlpRouter.post("/", async (req, res) => {
 
     pythonProcess.stderr.on("data", (data) => {
       console.error(`Error: ${data}`);
-      res.status(500).json({ error: "Internal Server Error" });
+      return res.status(500).json({ error: "Internal Server Error" });
     });
 
     pythonProcess.on("close", (code) => {
@@ -55,14 +55,14 @@ nlpRouter.post("/", async (req, res) => {
         let category = comps[1].split(": ")[1];
         let summary = comps[2].split(": ")[1];
         // console.log(sentiment, summary) ;
-        res.status(200).json({ sentiment, category, summary });
+        return res.status(200).json({ sentiment, category, summary });
       } else {
-        res.status(500).json({ error: "Processing failed" });
+        return res.status(500).json({ error: "Processing failed" });
       }
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 

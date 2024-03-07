@@ -1,9 +1,11 @@
 const express = require("express");
 const { connection } = require("./db");
 const { nlpRouter } = require("./routes/nlpRouter");
+const cors = require("cors") ;
 
 const app = express();
 
+app.use(cors()) ;
 app.use(express.json());
 
 // basic route
